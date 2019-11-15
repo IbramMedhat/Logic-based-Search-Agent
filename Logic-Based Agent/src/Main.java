@@ -24,16 +24,16 @@ public class Main {
 		 int s4XPosition = Integer.parseInt(grid.split(";")[3].split(",")[6]);
 		 int s4YPosition = Integer.parseInt(grid.split(";")[3].split(",")[7]);
 		 
-		 writer.println("gridSize(" + gridWidth + ", " + gridHeight + ")");
+		 writer.println("gridSize(" + gridWidth + ", " + gridHeight + ").");
 		 
-		 writer.println("position(" + imXPosition + ", " + imYPosition + ", " + "im)");
+		 writer.println("position(" + imXPosition + ", " + imYPosition + ", " + "im).");
 		 
-		 writer.println("position(" + tXPosition + ", " + tYPosition + ", " + "t)");
+		 writer.println("position(" + tXPosition + ", " + tYPosition + ", " + "t).");
 		 
-		 writer.println("position(" + s1XPosition + ", " + s1YPosition + ", " + "s1)");
-		 writer.println("position(" + s2XPosition + ", " + s2YPosition + ", " + "s2)");
-		 writer.println("position(" + s3XPosition + ", " + s3YPosition + ", " + "s3)");
-		 writer.println("position(" + s4XPosition + ", " + s4YPosition + ", " + "s4)");
+		 writer.println("position(" + s1XPosition + ", " + s1YPosition + ", " + "s1).");
+		 writer.println("position(" + s2XPosition + ", " + s2YPosition + ", " + "s2).");
+		 writer.println("position(" + s3XPosition + ", " + s3YPosition + ", " + "s3).");
+		 writer.println("position(" + s4XPosition + ", " + s4YPosition + ", " + "s4).");
 		 writer.close(); 
 	 }
 	 
