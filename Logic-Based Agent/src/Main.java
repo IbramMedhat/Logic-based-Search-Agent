@@ -5,7 +5,10 @@ import java.io.UnsupportedEncodingException;
 public class Main {
 
 	 public static void GenGrid (String grid) throws FileNotFoundException, UnsupportedEncodingException {
-		 PrintWriter writer = new PrintWriter("endgame.txt", "UTF-8");
+		 PrintWriter writer = new PrintWriter("endgame.pl", "UTF-8");
+		 int gridWidth = Integer.parseInt(grid.split(";")[0].split(",")[0]);
+		 int gridHeight = Integer.parseInt(grid.split(";")[0].split(",")[1]);
+		 
 		 int imXPosition = Integer.parseInt(grid.split(";")[1].split(",")[0]);
 		 int imYPosition = Integer.parseInt(grid.split(";")[1].split(",")[1]);
 		 
@@ -21,6 +24,8 @@ public class Main {
 		 int s4XPosition = Integer.parseInt(grid.split(";")[3].split(",")[6]);
 		 int s4YPosition = Integer.parseInt(grid.split(";")[3].split(",")[7]);
 		 
+		 writer.println("gridSize(" + gridWidth + ", " + gridHeight + ")");
+		 
 		 writer.println("position(" + imXPosition + ", " + imYPosition + ", " + "im)");
 		 
 		 writer.println("position(" + tXPosition + ", " + tYPosition + ", " + "t)");
@@ -29,7 +34,6 @@ public class Main {
 		 writer.println("position(" + s2XPosition + ", " + s2YPosition + ", " + "s2)");
 		 writer.println("position(" + s3XPosition + ", " + s3YPosition + ", " + "s3)");
 		 writer.println("position(" + s4XPosition + ", " + s4YPosition + ", " + "s4)");
-		 System.out.println("finished");
 		 writer.close(); 
 	 }
 	 
