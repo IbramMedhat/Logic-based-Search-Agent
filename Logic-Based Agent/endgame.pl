@@ -41,4 +41,8 @@ positionIM(X, Y, result(A, S)) :-
     A \= right,
     A \= up,
     A \= down).
+
+%Successor state axiom for IM to be holding certain stone
+holdingStone(Stone, result(A, S)) :-
+    true.
     
