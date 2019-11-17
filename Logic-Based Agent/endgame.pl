@@ -59,5 +59,6 @@ snapped(S) :-
     holdingStone(s3, S),
     holdingStone(s4, S),
     positionIM(X, Y, S),
-    positionTH(X, Y).
+    positionTH(X, Y),
+    S = result(snap, S).
     
