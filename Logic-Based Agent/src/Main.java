@@ -26,14 +26,15 @@ public class Main {
 		 
 		 writer.println("gridSize(" + gridWidth + ", " + gridHeight + ").");
 		 
-		 writer.println("position(" + imXPosition + ", " + imYPosition + ", " + "im).");
+		 // Iron man position is a fluent as it changes according to the state.
+		 writer.println("positionIM(" + imXPosition + ", " + imYPosition + ", " + "s0).");
 		 
-		 writer.println("position(" + tXPosition + ", " + tYPosition + ", " + "t).");
+		 writer.println("positionTH(" + tXPosition + ", " + tYPosition + ").");
 		 
-		 writer.println("position(" + s1XPosition + ", " + s1YPosition + ", " + "s1).");
-		 writer.println("position(" + s2XPosition + ", " + s2YPosition + ", " + "s2).");
-		 writer.println("position(" + s3XPosition + ", " + s3YPosition + ", " + "s3).");
-		 writer.println("position(" + s4XPosition + ", " + s4YPosition + ", " + "s4).");
+		 writer.println("positionS(" + s1XPosition + ", " + s1YPosition + ", " + "s1).");
+		 writer.println("positionS(" + s2XPosition + ", " + s2YPosition + ", " + "s2).");
+		 writer.println("positionS(" + s3XPosition + ", " + s3YPosition + ", " + "s3).");
+		 writer.println("positionS(" + s4XPosition + ", " + s4YPosition + ", " + "s4).");
 		 writer.close(); 
 	 }
 	 
