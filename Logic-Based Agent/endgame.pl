@@ -52,3 +52,12 @@ holdingStone(Stone, result(A, S)) :-
     A = collect);
     %IM will surely be holding stone S if it was holding it in the previous situation S
     holdingStone(Stone, S).
+
+snapped(S) :-
+    holdingStone(s1, S),
+    holdingStone(s2, S),
+    holdingStone(s3, S),
+    holdingStone(s4, S),
+    positionIM(X, Y, S),
+    positionTH(X, Y).
+    
