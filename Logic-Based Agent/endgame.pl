@@ -43,6 +43,12 @@ positionIM(X, Y, result(A, S)) :-
     A \= down).
 
 %Successor state axiom for IM to be holding certain stone
+%Only effect axioms needed as there is no action to drop the stones
 holdingStone(Stone, result(A, S)) :-
-    true.
-    
+    (positionIM(X, Y, S),
+    positionS(Sx, Sy, Stone),
+    X = Sx,
+    Y = Sy,
+    A = collect);
+    %IM will surely be holding stone S if it was holding it in the previous situation S
+    holdingStone(Stone, S).
