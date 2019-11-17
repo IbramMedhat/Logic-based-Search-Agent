@@ -13,28 +13,28 @@ positionIM(X, Y, result(A, S)) :-
     gridSize(Height, Width),
     %effect of up on the previous position
     (positionIM(X1, Y1, S),
-    X1 is X - 1,
-    Y1 is Y,
-    A = up,
-    X1 >= 0);
-    %effect of up on the previous position
-    (positionIM(X1, Y1, S),
-    X1 is X,
-    Y1 is Y - 1,
-    A = left,
-    Y1 >= 0);
-    %effect of up on the previous position
-    (positionIM(X1, Y1, S),
     X1 is X + 1,
     Y1 is Y,
-    A = down,
-    X1 < Height);
+    A = up,
+    X >= 0);
     %effect of up on the previous position
     (positionIM(X1, Y1, S),
     X1 is X,
     Y1 is Y + 1,
+    A = left,
+    Y >= 0);
+    %effect of up on the previous position
+    (positionIM(X1, Y1, S),
+    X1 is X - 1,
+    Y1 is Y,
+    A = down,
+    X < Height);
+    %effect of up on the previous position
+    (positionIM(X1, Y1, S),
+    X1 is X,
+    Y1 is Y - 1,
     A = right,
-    Y1 < Width);
+    Y < Width);
     %Persistance axioms when action is not movement and the previous position is the same as the current position   
     (positionIM(X, Y, S),
     A \= left,
