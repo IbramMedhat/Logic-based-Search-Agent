@@ -31,10 +31,10 @@ public class Main {
 		 
 		 writer.println("positionTH(" + tXPosition + ", " + tYPosition + ").");
 		 
-		 writer.println("positionS(" + s1XPosition + ", " + s1YPosition + ", " + "s1).");
-		 writer.println("positionS(" + s2XPosition + ", " + s2YPosition + ", " + "s2).");
-		 writer.println("positionS(" + s3XPosition + ", " + s3YPosition + ", " + "s3).");
-		 writer.println("positionS(" + s4XPosition + ", " + s4YPosition + ", " + "s4).");
+		 writer.println("positionS(" + s1XPosition + ", " + s1YPosition + ", " + "s1, s0).");
+		 writer.println("positionS(" + s2XPosition + ", " + s2YPosition + ", " + "s2, s0).");
+		 writer.println("positionS(" + s3XPosition + ", " + s3YPosition + ", " + "s3, s0).");
+		 writer.println("positionS(" + s4XPosition + ", " + s4YPosition + ", " + "s4, s0).");
 		 writer.close(); 
 	 }
 	 
