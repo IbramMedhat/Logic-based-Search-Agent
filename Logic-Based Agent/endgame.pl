@@ -21,21 +21,29 @@ positionIM(X, Y, result(A, S)) :-
     (X1 #= X + 1,
     Y1 #= Y,
     positionIM(X1, Y1, S),
-    A = up);
+    A = up,
+    print(up),
+    nl);
     %effect of left on the previous position
     (X1 #= X,
     Y1 #= Y + 1,        
     positionIM(X1, Y1, S),
-    A = left);
+    A = left,
+    print(left),
+    nl);
     %effect of down on the previous position
     (X1 #= X - 1,
     Y1 #= Y,        
     positionIM(X1, Y1, S),
-    A = down);%effect of right on the previous position
+    A = down,
+    print(down),
+    nl);%effect of right on the previous position
     (X1 #= X,
     Y1 #= Y - 1,        
     positionIM(X1, Y1, S),
-    A = right);
+    A = right,
+    print(right),
+    nl);
     %Persistance axioms when action is not movement and the previous position is the same as the current position   
     (positionIM(X, Y, S),
     A \= left,
@@ -55,13 +63,14 @@ positionIM(X, Y, result(A, S)) :-
 %Only effect axioms needed as there is no action to drop the stones
 holdingStone(Stone, result(A, S)) :-
     gridSize(Height, Width),
-    (positionIM(X, Y, S),
+    ((positionIM(X, Y, S),
     X in 0..Height,
     Y in 0..Width,
     positionS(X, Y, Stone),
     A = collect);
     %IM will surely be holding stone S if it was holding it in the previous situation S
-    holdingStone(Stone, S).
+    holdingStone(Stone, S)),
+    print(Stone).
 
 
 
