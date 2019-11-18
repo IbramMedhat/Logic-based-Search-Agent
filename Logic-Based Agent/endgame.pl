@@ -6,11 +6,12 @@ positionS(2, 1, s2, s0).
 positionS(2, 2, s3, s0).
 positionS(3, 3, s4, s0).
 
+:- discontiguous positionS/4.
+:- discontiguous positionIM/3.
 %Could be added that IM can not enter the cell of thanos
 %Successor state axiom for iron man position.
 positionIM(X, Y, result(A, S)) :-
     %effect axioms
-    gridSize(Height, Width),
     %effect of up on the previous position
     (positionIM(X1, Y1, S),
     X1 is X + 1,
@@ -24,13 +25,15 @@ positionIM(X, Y, result(A, S)) :-
     A = left,
     Y >= 0);
     %effect of down on the previous position
-    (positionIM(X1, Y1, S),
+    (gridSize(Height, _),
+    positionIM(X1, Y1, S),
     X1 is X - 1,
     Y1 is Y,
     A = down,
     X < Height);
     %effect of right on the previous position
-    (positionIM(X1, Y1, S),
+    (gridSize(_, Width),
+    positionIM(X1, Y1, S),
     X1 is X,
     Y1 is Y - 1,
     A = right,
@@ -42,6 +45,7 @@ positionIM(X, Y, result(A, S)) :-
     A \= up,
     A \= down).
 
+
 positionS(X, Y, Stone, result(A, S)) :-
     positionS(X, Y, Stone, S),
     A \= collect.
@@ -50,7 +54,7 @@ positionS(X, Y, Stone, result(A, S)) :-
 %Only effect axioms needed as there is no action to drop the stones
 holdingStone(Stone, result(A, S)) :-
     (positionIM(X, Y, S),
-    positionS(Sx, Sy, Stone),
+    positionS(Sx, Sy, Stone, S),
     X = Sx,
     Y = Sy,
     A = collect);
