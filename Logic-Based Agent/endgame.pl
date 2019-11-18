@@ -17,19 +17,19 @@ positionIM(X, Y, result(A, S)) :-
     Y1 is Y,
     A = up,
     X >= 0);
-    %effect of up on the previous position
+    %effect of left on the previous position
     (positionIM(X1, Y1, S),
     X1 is X,
     Y1 is Y + 1,
     A = left,
     Y >= 0);
-    %effect of up on the previous position
+    %effect of down on the previous position
     (positionIM(X1, Y1, S),
     X1 is X - 1,
     Y1 is Y,
     A = down,
     X < Height);
-    %effect of up on the previous position
+    %effect of right on the previous position
     (positionIM(X1, Y1, S),
     X1 is X,
     Y1 is Y - 1,
