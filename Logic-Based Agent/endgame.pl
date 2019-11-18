@@ -1,43 +1,41 @@
+:- use_module(library(clpfd)).
+:- discontiguous positionS/4.
+:- discontiguous positionIM/3.
 gridSize(5, 5).
 positionIM(1, 2, s0).
 positionTH(3, 4).
-positionS(1, 1, s1, s0).
-positionS(2, 1, s2, s0).
-positionS(2, 2, s3, s0).
-positionS(3, 3, s4, s0).
+positionS(1, 1, s1).
+positionS(2, 1, s2).
+positionS(2, 2, s3).
+positionS(3, 3, s4).
 
-:- discontiguous positionS/4.
-:- discontiguous positionIM/3.
+
 %Could be added that IM can not enter the cell of thanos
 %Successor state axiom for iron man position.
 positionIM(X, Y, result(A, S)) :-
     %effect axioms
     %effect of up on the previous position
-    (positionIM(X1, Y1, S),
-    X1 is X + 1,
-    Y1 is Y,
-    A = up,
-    X >= 0);
+    gridSize(Height, Width),
+    X in 0..Height,
+    Y in 0..Width,
+    (X1 #= X + 1,
+    Y1 #= Y,
+    positionIM(X1, Y1, S),
+    A = up);
     %effect of left on the previous position
-    (positionIM(X1, Y1, S),
-    X1 is X,
-    Y1 is Y + 1,
-    A = left,
-    Y >= 0);
+    (X1 #= X,
+    Y1 #= Y + 1,        
+    positionIM(X1, Y1, S),
+    A = left);
     %effect of down on the previous position
-    (gridSize(Height, _),
+    (X1 #= X - 1,
+    Y1 #= Y,        
     positionIM(X1, Y1, S),
-    X1 is X - 1,
-    Y1 is Y,
-    A = down,
-    X < Height);
-    %effect of right on the previous position
-    (gridSize(_, Width),
+    A = down);%effect of right on the previous position
+    (X1 #= X,
+    Y1 #= Y - 1,        
     positionIM(X1, Y1, S),
-    X1 is X,
-    Y1 is Y - 1,
-    A = right,
-    Y < Width);
+    A = right);
     %Persistance axioms when action is not movement and the previous position is the same as the current position   
     (positionIM(X, Y, S),
     A \= left,
@@ -46,17 +44,21 @@ positionIM(X, Y, result(A, S)) :-
     A \= down).
 
 
-positionS(X, Y, Stone, result(A, S)) :-
-    positionS(X, Y, Stone, S),
-    A \= collect.
+%positionS(X, Y, Stone, result(A, S)) :-
+%    gridSize(Height, Width),
+%    X in 0..Height,
+%   Y in 0..Width,
+%    positionS(X, Y, Stone, S),
+%    A \= collect.
 
 %Successor state axiom for IM to be holding certain stone
 %Only effect axioms needed as there is no action to drop the stones
 holdingStone(Stone, result(A, S)) :-
+    gridSize(Height, Width),
     (positionIM(X, Y, S),
-    positionS(Sx, Sy, Stone, S),
-    X = Sx,
-    Y = Sy,
+    X in 0..Height,
+    Y in 0..Width,
+    positionS(X, Y, Stone),
     A = collect);
     %IM will surely be holding stone S if it was holding it in the previous situation S
     holdingStone(Stone, S).
