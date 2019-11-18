@@ -83,3 +83,8 @@ snapped(S) :-
     positionTH(X, Y),
     S = result(snap, S).
     
+snapped_with_limit(S, Limit) :-
+    call_with_depth_limit(snapped(S), Limit, S);
+    Limit1 is Limit + 1,
+    snapped_with_limit(S, Limit1).
+    
