@@ -1,10 +1,10 @@
 gridSize(5, 5).
 positionIM(1, 2, s0).
 positionTH(3, 4).
-positionS(1, 1, s1).
-positionS(2, 1, s2).
-positionS(2, 2, s3).
-positionS(3, 3, s4).
+positionS(1, 1, s1, s0).
+positionS(2, 1, s2, s0).
+positionS(2, 2, s3, s0).
+positionS(3, 3, s4, s0).
 
 %Could be added that IM can not enter the cell of thanos
 %Successor state axiom for iron man position.
@@ -42,6 +42,10 @@ positionIM(X, Y, result(A, S)) :-
     A \= up,
     A \= down).
 
+positionS(X, Y, Stone, result(A, S)) :-
+    positionS(X, Y, Stone, S),
+    A \= collect.
+
 %Successor state axiom for IM to be holding certain stone
 %Only effect axioms needed as there is no action to drop the stones
 holdingStone(Stone, result(A, S)) :-
@@ -52,6 +56,8 @@ holdingStone(Stone, result(A, S)) :-
     A = collect);
     %IM will surely be holding stone S if it was holding it in the previous situation S
     holdingStone(Stone, S).
+
+
 
 snapped(S) :-
     holdingStone(s1, S),
