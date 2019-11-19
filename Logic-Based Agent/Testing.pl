@@ -1,11 +1,12 @@
 :- use_module(library(clpfd)).
 
-grid(1,1).
-pos(0,0,iron_man, s0).
+grid(0,2).
+posS(0,1,stone_1).
+posS(2,2,stone_2).
+posIM(0,0,s0).
 
-pos(0,1, stone_1, s0).
 
-pos(X_new,Y_new , iron_man, result(A,S)):-
+posIM(X_new,Y_new ,result(A,S)):-
 
     %Effect
     (
@@ -14,7 +15,7 @@ pos(X_new,Y_new , iron_man, result(A,S)):-
         X_old in 0..Height,
         Y_new in 0..Width,
         Y_old in 0..Width,
-        pos(X_old, Y_old, iron_man, S),
+        posIM(X_old, Y_old,S),
         (
             (A = left, X_new #= X_old , Y_new #= Y_old - 1);
             (A = right, X_new #= X_old , Y_new #= Y_old + 1);
@@ -34,7 +35,7 @@ pos(X_new,Y_new , iron_man, result(A,S)):-
             Y_old in 0..Width,
             X_new #= X_old,
             Y_new #= Y_old),
-            pos(X_old, Y_old, iron_man, S),
+            posIM(X_old, Y_old, S),
             A = collect
             
         % )
@@ -50,24 +51,26 @@ stone_collected(Stone, result(A, S)):-
     (
         % implies(
             Stone \= iron_man,
-            pos(X,Y,iron_man, S), pos(X,Y, Stone, S)),
-            A = collect ,
-            (print(effect)%, (stone_collected(OtherStone, S), Stone \= OtherStone) 
+            posIM(X,Y,S), posS(X,Y, Stone),
+            not(stone_collected(Stone, S)),
+            % (stone_collected(OtherStone, S), Stone \= OtherStone)
+            A = collect,
+            print(collect),nl
         % )
     );
     %Persistance
     (
         
-        Stone \= iron_man, stone_collected(Stone, S),  (  ( pos(X,Y,iron_man, S) , pos(X,Y, Stone, S)  ->  (A = left; A = right;A = down;A = up) ;
-         (A = collect, A = left; A = right;A = down;A = up) ) ,
+        Stone \= iron_man, stone_collected(Stone, S),  (  ( posIM(X,Y, S) , posS(X,Y, Stone)  ->  (A = left; A = right;A = down;A = up) ;
+         (A = collect, A = left; A = right;A = down;A = up) ) 
         
 
-        print(persist) ) 
+        ) 
     ).
 
 snapped(S):-
     stone_collected(stone_1, S),
-    pos(1,1,iron_man, S).
+    posIM(0,2,S).
 
 snapped_with_limit(S, Limit) :-
     call_with_depth_limit(snapped(S), Limit, S);
