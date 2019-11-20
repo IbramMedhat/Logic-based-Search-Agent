@@ -1,7 +1,7 @@
 :- use_module(library(clpfd)).
 
 grid(3,3).
-posS(0,2,stone_1).
+posS(5,5,stone_1).
 posS(0,1,stone_2).
 posS(2,2,stone_3).
 posS(3,3,stone_4).
@@ -21,10 +21,10 @@ posIM(X_new,Y_new ,result(A,S)):-
         Y_old in 0..Width,
         posIM(X_old, Y_old,S),
         (
-            (A \= left; ( X_new #= X_old , Y_new #= Y_old - 1 )),
-            (A \= right;( X_new #= X_old , Y_new #= Y_old + 1)),
-            (A \= down; ( X_new #= X_old + 1 , Y_new #= Y_old)),
-            (A \= up ; ( X_new #= X_old - 1 , Y_new #= Y_old))
+            (A = left, X_new #= X_old , Y_new #= Y_old - 1);
+            (A = right, X_new #= X_old , Y_new #= Y_old + 1);
+            (A = down, X_new #= X_old + 1 , Y_new #= Y_old);
+            (A = up, X_new #= X_old - 1 , Y_new #= Y_old)
         )
     )
 
@@ -39,8 +39,10 @@ posIM(X_new,Y_new ,result(A,S)):-
             Y_old in 0..Width,
             X_new #= X_old,
             Y_new #= Y_old),
-            posIM(X_old, Y_old, S),
+            (
+            not(posIM(X_old, Y_old, S));
             A = collect
+            )
             
         % )
     ).
@@ -53,9 +55,13 @@ stone_collected(_, s0):-
     false.
 stone_collected(Stone, result(A, S)):-
     
+          
     %Effect
     (
         % implies(
+        (grid(Height,Width),
+        X in 0..Height,
+        Y in 0..Width),
             Stone \= iron_man,
             posS(X,Y, Stone), posIM(X,Y,S),
             not(stone_collected(Stone, S)),
@@ -66,10 +72,10 @@ stone_collected(Stone, result(A, S)):-
     );
     %Persistance
     (
-        
-        Stone \= iron_man, ( (  posS(X,Y, Stone), posIM(X,Y, S) , A \= collect, (A = left; A = right;A = down;A = up) ) ;
-        ( posS(X,Y, Stone), posIM(X1,Y1, S),(X1 \= X;Y1 \= Y),(A = left; A = right;A = down;A = up; A = collect)) )
-        ,stone_collected(Stone, S)
+        (grid(Height,Width),
+        X in 0..Height,
+        Y in 0..Width),
+        stone_collected(Stone, S) , ( not( (posS(X,Y,Stone), posIM(X,Y,S) ) ) ; A \= collect )
         
         ,print(persistance)
     ).
