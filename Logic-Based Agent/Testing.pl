@@ -72,12 +72,12 @@ stone_collected(Stone, result(A, S)):-
     ).
 
 snapped(S):-
+    S = result(snap,S1),
     stone_collected(stone_1, S1),
     stone_collected(stone_2, S1),
     stone_collected(stone_3, S1),
     stone_collected(stone_4, S1),
-    posIM(3,4,S1),
-    S = result(snap,S1).
+    posIM(3,4,S1).
     %posIM(0,2,S).
 
 snapped_with_limit(S, Limit) :-
