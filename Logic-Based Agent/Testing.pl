@@ -5,6 +5,7 @@ posS(1,1,stone_1).
 posS(2,1,stone_2).
 posS(2,2,stone_3).
 posS(3,3,stone_4).
+posTH(3,4).
 
 posIM(1,2,s0).
 
@@ -77,7 +78,8 @@ snapped(S):-
     stone_collected(stone_2, S1),
     stone_collected(stone_3, S1),
     stone_collected(stone_4, S1),
-    posIM(3,4,S1).
+    posIM(X,Y,S1),
+    posTH(X,Y).
     %posIM(0,2,S).
 
 snapped_with_limit(S, Limit) :-
