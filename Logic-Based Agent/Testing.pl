@@ -1,12 +1,12 @@
 :- use_module(library(clpfd)).
 
-grid(5,5).
-posS(1,1,stone_1).
-posS(2,1,stone_2).
+grid(0,2).
+posS(0,2,stone_1).
+posS(0,1,stone_2).
 posS(2,2,stone_3).
 posS(3,3,stone_4).
 
-posIM(1,2,s0).
+posIM(0,0,s0).
 
 
 posIM(X_new,Y_new ,result(A,S)):-
@@ -48,6 +48,8 @@ posIM(X_new,Y_new ,result(A,S)):-
 %     pos(X_new,Y_new, iron_man, S),
 %     A = collect.
 
+stone_collected(_, s0):-
+    false.
 stone_collected(Stone, result(A, S)):-
 
     %Effect
@@ -55,7 +57,7 @@ stone_collected(Stone, result(A, S)):-
         % implies(
             Stone \= iron_man,
             posS(X,Y, Stone), posIM(X,Y,S),
-            %not(stone_collected(Stone, S)),
+            % not(stone_collected(Stone, S)),
             % (stone_collected(OtherStone, S), Stone \= OtherStone)
             A = collect,
             print(collect),print(Stone), nl
@@ -64,20 +66,19 @@ stone_collected(Stone, result(A, S)):-
     %Persistance
     (
         
-        Stone \= iron_man, stone_collected(Stone, S),  (  (  posS(X,Y, Stone), posIM(X,Y, S)   ->  (A = left; A = right;A = down;A = up) ;
-         (A = collect; A = left; A = right;A = down;A = up) ) 
+        Stone \= iron_man, ( (  posS(X,Y, Stone), posIM(X,Y, S) , (A = left; A = right;A = down;A = up) ) ;
+        (A = left; A = right;A = down;A = up; A = collect) )
+        ,stone_collected(Stone, S)
         
-
-        ) 
     ).
 
 snapped(S):-
     S = result(snap,S1),
     stone_collected(stone_1, S1),
-    stone_collected(stone_2, S1),
-    stone_collected(stone_3, S1),
-    stone_collected(stone_4, S1),
-    posIM(3,4,S1).
+    stone_collected(stone_2, S1).
+    % stone_collected(stone_3, S1),
+    % stone_collected(stone_4, S1),
+    % posIM(3,4,S1).
     %posIM(0,2,S).
 
 snapped_with_limit(S, Limit) :-
