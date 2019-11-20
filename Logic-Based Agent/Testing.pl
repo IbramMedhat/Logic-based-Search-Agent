@@ -52,14 +52,14 @@ posIM(X_new,Y_new ,result(A,S)):-
 stone_collected(_, s0):-
     false.
 stone_collected(Stone, result(A, S)):-
-
+    
     %Effect
     (
         % implies(
             Stone \= iron_man,
             posS(X,Y, Stone), posIM(X,Y,S),
-            % not(stone_collected(Stone, S)),
-            % (stone_collected(OtherStone, S), Stone \= OtherStone)
+            not(stone_collected(Stone, S)),
+            %(stone_collected(OtherStone, S), Stone \= OtherStone),
             A = collect,
             print(collect),print(Stone), nl
         % )
@@ -67,10 +67,11 @@ stone_collected(Stone, result(A, S)):-
     %Persistance
     (
         
-        Stone \= iron_man, ( (  posS(X,Y, Stone), posIM(X,Y, S) , (A = left; A = right;A = down;A = up) ) ;
-        (A = left; A = right;A = down;A = up; A = collect) )
+        Stone \= iron_man, ( (  posS(X,Y, Stone), posIM(X,Y, S) , A \= collect, (A = left; A = right;A = down;A = up) ) ;
+        ( posS(X,Y, Stone), posIM(X1,Y1, S),(X1 \= X;Y1 \= Y),(A = left; A = right;A = down;A = up; A = collect)) )
         ,stone_collected(Stone, S)
         
+        ,print(persistance)
     ).
 
 snapped(S):-
