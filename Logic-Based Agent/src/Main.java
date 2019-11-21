@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 public class Main {
 
 	 public static void GenGrid (String grid) throws FileNotFoundException, UnsupportedEncodingException {
-		 PrintWriter writer = new PrintWriter("endgame.pl", "UTF-8");
+		 PrintWriter writer = new PrintWriter("KB1.pl", "UTF-8");
 		 int gridWidth = Integer.parseInt(grid.split(";")[0].split(",")[0]);
 		 int gridHeight = Integer.parseInt(grid.split(";")[0].split(",")[1]);
 		 
@@ -24,22 +24,26 @@ public class Main {
 		 int s4XPosition = Integer.parseInt(grid.split(";")[3].split(",")[6]);
 		 int s4YPosition = Integer.parseInt(grid.split(";")[3].split(",")[7]);
 		 
-		 writer.println("gridSize(" + gridWidth + ", " + gridHeight + ").");
+		 writer.println("grid(" + gridWidth + ", " + gridHeight + ").");
+		 
+		 writer.println("posS(" + s1XPosition + ", " + s1YPosition + ", " + "stone_1).");
+		 writer.println("posS(" + s2XPosition + ", " + s2YPosition + ", " + "stone_2).");
+		 writer.println("posS(" + s3XPosition + ", " + s3YPosition + ", " + "stone_3).");
+		 writer.println("posS(" + s4XPosition + ", " + s4YPosition + ", " + "stone_4).");
+		 
+		 
+		 writer.println("posTH(" + tXPosition + ", " + tYPosition + ").");
 		 
 		 // Iron man position is a fluent as it changes according to the state.
-		 writer.println("positionIM(" + imXPosition + ", " + imYPosition + ", " + "s0).");
+		 writer.println("posIM(" + imXPosition + ", " + imYPosition + ", " + "s0).");
 		 
-		 writer.println("positionTH(" + tXPosition + ", " + tYPosition + ").");
 		 
-		 writer.println("positionS(" + s1XPosition + ", " + s1YPosition + ", " + "s1, s0).");
-		 writer.println("positionS(" + s2XPosition + ", " + s2YPosition + ", " + "s2, s0).");
-		 writer.println("positionS(" + s3XPosition + ", " + s3YPosition + ", " + "s3, s0).");
-		 writer.println("positionS(" + s4XPosition + ", " + s4YPosition + ", " + "s4, s0).");
 		 writer.close(); 
 	 }
 	 
 	 public static void main(String[]args) throws FileNotFoundException, UnsupportedEncodingException {
 		 GenGrid("5,5;1,2;3,4;1,1,2,1,2,2,3,3");
+		 //GenGrid("5,5;")
 	 }
 
 }
