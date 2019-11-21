@@ -81,7 +81,7 @@ stone_collected(_,_,_,s0):-
 % stone_collected(Stone, X, Y, result(collect, _)):-
 %     posS(X,Y,Stone).
 stone_collected(Stone, X , Y , result(A, S)):-
-    print(X),print(Y),print(S),print(A),nl,
+    % print(X),print(Y),print(S),print(A),nl,
     (A = left , Y_old #= Y + 1 , stone_collected(Stone, X , Y_old, S) );
     (A = right , Y_old #= Y - 1 , stone_collected(Stone, X , Y_old, S) );
     (A = down , X_old #= X - 1 , stone_collected(Stone, X_old , Y, S) );
