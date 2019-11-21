@@ -1,111 +1,71 @@
 :- use_module(library(clpfd)).
-:- discontiguous positionS/5.
-:- discontiguous positionS/4.
-:- discontiguous positionIM/3.
-gridSize(5, 5).
-positionIM(1, 2, s0).
-positionTH(3, 4).
-positionS(1, 1, stone_1).
-positionS(2, 1, stone_2).
-positionS(2, 2, stone_3).
-positionS(3, 3, stone_4).
 
 
-positionS(1, 1, stone_1, not_collected, s0).
-positionS(2, 1, stone_2, not_collected, s0).
-positionS(2, 2, stone_3, not_collected, s0).
-positionS(3, 3, stone_4, not_collected, s0).
+grid(5,5).
+posS(1,1,stone_1).
+posS(2,1,stone_2).
+posS(2,2,stone_3).
+posS(3,3,stone_4).
+posTH(3,4).
+
+posIM(1,2,s0).
 
 
-%Could be added that IM can not enter the cell of thanos
-%Successor state axiom for iron man position.
-positionIM(X, Y, result(A, S)) :-
-    %effect axioms
-    gridSize(Height, Width),
-    X in 0..Height,
-    Y in 0..Width,
-    %effect of up on the previous position
-    (X1 #= X + 1,
-    Y1 #= Y,
-    positionIM(X1, Y1, S),
-    A = up,
-    print(up),
-    nl);
-    %effect of left on the previous position
-    (X1 #= X,
-    Y1 #= Y + 1,        
-    positionIM(X1, Y1, S),
-    A = left,
-    print(left),
-    nl);
-    %effect of down on the previous position
-    (X1 #= X - 1,
-    Y1 #= Y,        
-    positionIM(X1, Y1, S),
-    A = down,
-    print(down),
-    nl);%effect of right on the previous position
-    (X1 #= X,
-    Y1 #= Y - 1,        
-    positionIM(X1, Y1, S),
-    A = right,
-    print(right),
-    nl);
-    %Persistance axioms when action is not movement and the previous position is the same as the current position   
-    (positionIM(X, Y, S),
-    A \= left,
-    A \= right,
-    A \= up,
-    A \= down).
+posIM(X_new,Y_new ,result(A,S)):-
+
+    %Effect as making sure first that iron man position is in bounds of the grid
+    %Then moving iron man in different directions according to old position in the previous situation
+    grid(Height,Width),
+    X_new in 0..Height,
+    X_old in 0..Height,
+    Y_new in 0..Width,
+    Y_old in 0..Width,
+    posIM(X_old, Y_old,S),
+    (
+        
+        (
+            (A = left, X_new #= X_old , Y_new #= Y_old - 1);
+            (A = right, X_new #= X_old , Y_new #= Y_old + 1);
+            (A = down, X_new #= X_old + 1 , Y_new #= Y_old);
+            (A = up, X_new #= X_old - 1 , Y_new #= Y_old);
+            %Persistance case where iron man position does not change if previous action was collect
+            (A = collect, X_old #= X_new , Y_old #= Y_new, posS(X_old, Y_old ,Stone), not(once(stone_collected(Stone,X_old,Y_old, S))))
+        )
+    ).
 
 
-positionS(X, Y, Stone, collected, result(A, S)) :-
-    gridSize(Height, Width),
-    X in 0..Height,
-    Y in 0..Width,
-    %Effect Axioms
-    (positionS(X, Y,Stone, not_collected, S),
-    A = collect, positionIM(X,Y,S)
-        );
-    %Persistance    
-    (positionS(X,Y, Stone, collected, S), A \= collect),
-    print(Stone).
+% case to assure that no stone is collected in the initial situation
+stone_collected(_,_,_,s0):-
+    false.
 
-%Successor state axiom for IM to be holding certain stone
-%Only effect axioms needed as there is no action to drop the stones
-holdingStone(Stone, result(A, S)) :-
-    gridSize(Height, Width),
-    ((positionIM(X, Y, S),
-    X in 0..Height,
-    Y in 0..Width,
-    positionS(X, Y, Stone),
-    A = collect);
-    %IM will surely be holding stone S if it was holding it in the previous situation S
-    holdingStone(Stone, S)),
-    print(Stone).
+stone_collected(Stone, X , Y , result(A, S)):-
+    (A = left , Y_old #= Y + 1 , stone_collected(Stone, X , Y_old, S) );
+    (A = right , Y_old #= Y - 1 , stone_collected(Stone, X , Y_old, S) );
+    (A = down , X_old #= X - 1 , stone_collected(Stone, X_old , Y, S) );
+    (A = up , X_old #= X + 1 , stone_collected(Stone, X_old , Y, S) );
+    (A = snap, stone_collected(Stone, X, Y, S));
 
-
-
-% snapped(S) :-
-%     holdingStone(s1, S),
-%     holdingStone(s2, S),
-%     holdingStone(s3, S),
-%     holdingStone(s4, S),
-%     positionIM(X, Y, S),
-%     positionTH(X, Y),
-%     S = result(snap, S).
+    (A = collect, posS(X, Y, Stone));
+    (A = collect, not(posS(X, Y, Stone)) , stone_collected(Stone, X, Y, S)).
     
-snapped(S) :-
-    positionS(1, 1, stone_1, collected, S),
-    positionS(2, 1, stone_2, collected, S),
-    positionS(2, 2, stone_3, collected, S),
-    positionS(3, 3, stone_4, collected, S),
-    positionIM(X, Y, S),
-    positionTH(X, Y),
-    S = result(snap, S).
-    
+
+snapped(S):-
+    S = result(snap,S1),
+    posIM(X,Y,S1),
+    posTH(X,Y),
+    stone_collected(stone_1, X, Y,S1),
+    stone_collected(stone_2, X, Y,S1),
+    stone_collected(stone_3, X, Y,S1),
+    stone_collected(stone_4, X, Y,S1).
+
 snapped_with_limit(S, Limit) :-
     call_with_depth_limit(snapped(S), Limit, S);
     Limit1 is Limit + 1,
     snapped_with_limit(S, Limit1).
+
     
+
+implies(X, Y):-
+    not(X) ; Y.
+    
+
