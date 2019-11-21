@@ -2,12 +2,12 @@
 
 
 grid(5, 5).
-posS(1, 1, stone_1).
-posS(2, 1, stone_2).
-posS(2, 2, stone_3).
-posS(3, 3, stone_4).
-posTH(3, 4).
-posIM(1, 2, s0).
+posS(2, 3, stone_1).
+posS(3, 4, stone_2).
+posS(4, 4, stone_3).
+posS(4, 5, stone_4).
+posTH(5, 5).
+posIM(2, 2, s0).
 
 
 posIM(X_new,Y_new ,result(A,S)):-

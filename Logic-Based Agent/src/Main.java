@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 public class Main {
 
 	 public static void GenGrid (String grid) throws FileNotFoundException, UnsupportedEncodingException {
-		 PrintWriter writer = new PrintWriter("KB1.pl", "UTF-8");
+		 PrintWriter writer = new PrintWriter("KB2.pl", "UTF-8");
 		 int gridWidth = Integer.parseInt(grid.split(";")[0].split(",")[0]);
 		 int gridHeight = Integer.parseInt(grid.split(";")[0].split(",")[1]);
 		 
@@ -42,7 +42,7 @@ public class Main {
 	 }
 	 
 	 public static void main(String[]args) throws FileNotFoundException, UnsupportedEncodingException {
-		 GenGrid("5,5;1,2;3,4;1,1,2,1,2,2,3,3");
+		 GenGrid("5,5;2,2;5,5;2,3,3,4,4,4,4,5");
 		 //GenGrid("5,5;")
 	 }
 
