@@ -14,13 +14,14 @@ posIM(1,2,s0).
 posIM(X_new,Y_new ,result(A,S)):-
 
     %Effect
+    grid(Height,Width),
+    X_new in 0..Height,
+    X_old in 0..Height,
+    Y_new in 0..Width,
+    Y_old in 0..Width,
+    posIM(X_old, Y_old,S),
     (
-        grid(Height,Width),
-        X_new in 0..Height,
-        X_old in 0..Height,
-        Y_new in 0..Width,
-        Y_old in 0..Width,
-        posIM(X_old, Y_old,S),
+        
         (
             (A = left, X_new #= X_old , Y_new #= Y_old - 1);
             (A = right, X_new #= X_old , Y_new #= Y_old + 1);
@@ -28,23 +29,6 @@ posIM(X_new,Y_new ,result(A,S)):-
             (A = up, X_new #= X_old - 1 , Y_new #= Y_old);
             (A = collect, X_old #= X_new , Y_old #= Y_new, posS(X_old, Y_old ,Stone), not(once(stone_collected(Stone,X_old,Y_old, S))))
         )
-    )
-
-        ;
-    %Persistance
-    (
-        % implies(
-            (grid(Height,Width),
-            X_new in 0..Height,
-            X_old in 0..Height,
-            Y_new in 0..Width,
-            Y_old in 0..Width,
-            X_new #= X_old,
-            Y_new #= Y_old),
-            posIM(X_old, Y_old, S),
-            A = collect
-            
-        % )
     ).
 
 % pos(X_new,Y_new , iron_man, result(A,S)):-
