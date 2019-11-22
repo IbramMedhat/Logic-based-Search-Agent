@@ -37,14 +37,27 @@ posIM(X_new,Y_new ,result(A,S)):-
 stone_collected(_,_,_,s0):-
     false.
 
+% This predicate is used to check if the stone "Stone" in the situation "result(A,S)" where iron man is at postion "X,Y"
+% is collected or not.
+
+% This predicate parses a given situation to check if this series of actions results in stone "Stone" being collected.
 stone_collected(Stone, X , Y , result(A, S)):-
+    % Here we check if the last action was one of the movement operators, and then we update the X,Y accordingly and
+    % call the predicate on the rest of the situation (Without the last action) with the new X,Y.
     (A = left , Y_old #= Y + 1 , stone_collected(Stone, X , Y_old, S) );
     (A = right , Y_old #= Y - 1 , stone_collected(Stone, X , Y_old, S) );
     (A = down , X_old #= X - 1 , stone_collected(Stone, X_old , Y, S) );
     (A = up , X_old #= X + 1 , stone_collected(Stone, X_old , Y, S) );
+
+    % Here we just check if the last action was "snap", if it is we just pass the rest of the sitation to the preidacte again
+    % with the same X and Y.
     (A = snap, stone_collected(Stone, X, Y, S));
 
+    % Here we check if the last action was "collect" and the current pos of iron man (X,Y) is the same as the mentioned stone
+    % "Stone" , the predicate returns true.
     (A = collect, posS(X, Y, Stone));
+
+    % IF not the predicate will remove the last action and continue checking.
     (A = collect, not(posS(X, Y, Stone)) , stone_collected(Stone, X, Y, S)).
     
 
