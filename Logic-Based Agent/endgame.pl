@@ -40,7 +40,7 @@ stone_collected(_,_,_,s0):-
 % This predicate is used to check if the stone "Stone" in the situation "result(A,S)" where iron man is at postion "X,Y"
 % is collected or not.
 
-% This predicate parses a given situation to check if this series of actions results in stone "Stone" being collected.
+% This predicate parses a given situation to check if this sequence of actions results in stone "Stone" being collected.
 stone_collected(Stone, X , Y , result(A, S)):-
     % Here we check if the last action was one of the movement operators, and then we update the X,Y accordingly and
     % call the predicate on the rest of the situation (Without the last action) with the new X,Y.
@@ -63,8 +63,13 @@ stone_collected(Stone, X , Y , result(A, S)):-
 
 snapped(S):-
     S = result(snap,S1),
+    % Here we generate all posibile sequence of actions than will make iron man go from the intial position,
+    % to Thanos position.
     posIM(X,Y,S1),
     posTH(X,Y),
+
+    % Then we check if the current sequence of actions satisfies the following predicates, then the snapped/1 predicate unifies with 
+    % the current generated sequence of actions.
     stone_collected(stone_1, X, Y,S1),
     stone_collected(stone_2, X, Y,S1),
     stone_collected(stone_3, X, Y,S1),
@@ -74,10 +79,3 @@ snapped_with_limit(S, Limit) :-
     call_with_depth_limit(snapped(S), Limit, S);
     Limit1 is Limit + 1,
     snapped_with_limit(S, Limit1).
-
-    
-
-implies(X, Y):-
-    not(X) ; Y.
-    
-
